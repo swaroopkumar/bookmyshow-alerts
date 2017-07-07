@@ -9,15 +9,15 @@ mytheatre = "svc-cinemas-eeshwar-attapur"
 my_regex = r"href=[\"\'].*" + mytheatre + r".*[\"\']"
 
 if re.search(my_regex, urllib.urlopen(myurl).read(), re.I):
-	fromaddr = "swaroopkumar.badam@live.com"
-	toaddrs = ["swaroopkumar.badam@gmail.com"];
+	fromaddr = "from@live.com"
+	toaddrs = ["to@email.com"];
 	msg = ("From: %s\r\nTo: %s\r\n" % (fromaddr, ", ".join(toaddrs)))
 	msg = msg + "Subject:Tickets available !! for " + mytheatre + "\r\n\r\n"
 	msg = msg + "Tickets available.\n"
 	server = smtplib.SMTP('smtp.live.com', 587)
 	server.ehlo()
 	server.starttls()
-	server.login("swaroopkumar.badam@live.com", "******")
+	server.login("from@live.com", "******")
 	server.sendmail(fromaddr, toaddrs, msg)
 	server.quit()
 	print "Tickets available !! for " + mytheatre
