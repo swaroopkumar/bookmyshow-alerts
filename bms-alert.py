@@ -22,15 +22,20 @@ if length >= 5:
 
 print "Theatre names:" + ", ".join(mytheatres)
 
+html_text = urllib.urlopen(myurl).read()
+
 for mytheatre in mytheatres:
 
     my_regex = r"href=[\"\'].*" + mytheatre + r".*[\"\']"
 
-    if re.search(my_regex, urllib.urlopen(myurl).read(), re.I):
+    if re.search(my_regex, html_text, re.I):
         fromaddr = "from@live.com"
         toaddrs = ["to@gmail.com"];
         msg = ("From: %s\r\nTo: %s\r\n" % (fromaddr, ", ".join(toaddrs)))
-        msg = msg + "Subject:Tickets available !! for " + mytheatre + "\r\n\r\n"
+        movie_name = re.search(".*buytickets\/([a-z0-9\-]+)\/", myurl, re.I)
+        if movie_name:
+            movie_name = movie_name.group(1)
+        msg = msg + "Subject:Tickets available !! for " + movie_name + " at " + mytheatre + "\r\n\r\n"
         msg = msg + "Tickets available.\n"
         server = smtplib.SMTP('smtp.live.com', 587)
         server.ehlo()
